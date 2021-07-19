@@ -17,7 +17,7 @@ const defaultParams = {
   minThreshold: 50,
   maxThreshold: 220,
   minRepeatability: 2,
-  minDistBetweenBlobs: 10,
+  minDistBetweenBlobs: 100,
 
   filterByColor: true,
   blobColor: 0,
@@ -30,14 +30,13 @@ const defaultParams = {
   minCircularity: 0.8,
   maxCircularity: 1000000,
 
-  filterByInertia: true,
-  //minInertiaRatio: 0.6,
-  minInertiaRatio: 0.1,
+  filterByInertia: false,
+  minInertiaRatio: 0.6, //0.1
   maxInertiaRatio: 1000000,
 
   filterByConvexity: true,
-  //minConvexity: 0.8,
-  minConvexity: 0.95,
+  minConvexity: 0.1,
+  //minConvexity: 0.95,
   maxConvexity: 1000000,
 
   faster: false,

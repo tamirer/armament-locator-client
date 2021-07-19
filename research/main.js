@@ -38,17 +38,19 @@ function compareCanvases() {
   diffCtx.putImageData(diff, 0, 0)
   let imgElement = document.getElementById('output');
   points = simpleBlobDetector(cv.imread(imgElement))
-  
+  console.log(points)
   var c = document.getElementById("output");
   var cAfter = document.getElementById("after");
   var ctx = c.getContext("2d");
   var ctxAfter = cAfter.getContext("2d");
   for (var i = 0; i < points.length; i++){
     ctx.beginPath();
-    ctx.arc(points[i].pt.x, points[i].pt.y, points[i].size, 0, 2 * Math.PI);
+    ctx.lineWidth = 20;
+    ctx.arc(points[i].pt.x, points[i].pt.y, 50, 0, 2 * Math.PI);
     ctx.stroke();
     ctxAfter.beginPath();
-    ctxAfter.arc(points[i].pt.x, points[i].pt.y, points[i].size, 0, 2 * Math.PI);
+    ctxAfter.lineWidth = 20;
+    ctxAfter.arc(points[i].pt.x, points[i].pt.y, 50, 0, 2 * Math.PI);
     ctxAfter.stroke();
   }
 }
