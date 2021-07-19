@@ -49,7 +49,9 @@ function compareCanvases() {
     ctx.arc(points[i].pt.x, points[i].pt.y, 50, 0, 2 * Math.PI);
     ctx.stroke();
     ctxAfter.beginPath();
+    ctxAfter.strokeStyle = "#BFFF00";
     ctxAfter.lineWidth = 20;
+
     ctxAfter.arc(points[i].pt.x, points[i].pt.y, 50, 0, 2 * Math.PI);
     ctxAfter.stroke();
   }

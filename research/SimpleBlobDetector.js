@@ -17,7 +17,7 @@ const defaultParams = {
   minThreshold: 50,
   maxThreshold: 220,
   minRepeatability: 2,
-  minDistBetweenBlobs: 100,
+  minDistBetweenBlobs: 150,
 
   filterByColor: true,
   blobColor: 0,
