@@ -45,7 +45,8 @@ imgElement.onload = function() {
   cv.resize(src2, srcScaled2, new cv.Size(320, 240), 0, 0, cv.INTER_AREA);
   //cv.Canny(srcScaled, srcScaled, 50, 100, 3, false);
   //cv.Canny(srcScaled2, srcScaled2, 50, 100, 3, false);
-  cv.subtract(srcScaled,srcScaled2,temp22)
+  //cv.subtract(srcScaled,srcScaled2,temp22)
+  temp22 = srcScaled - srcScaled2
   cv.imshow('canvasOutput', temp22);
   mat.delete();
   //https://huningxin.github.io/opencv.js/build/asm.js/

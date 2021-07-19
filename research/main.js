@@ -1,52 +1,54 @@
-// Converts image to canvas; returns new canvas element
-function convertImageToCanvas(imageID) {
-    var image = document.getElementById(imageID);
-    var canvas = document.createElement("canvas");
-    canvas.width = image.width;
-    canvas.height = image.height;
-    canvas.getContext("2d").drawImage(image, 0, 0);
-    // image.style = "width: 400px";
-    return canvas;
+const inputs = [...document.querySelectorAll('input')]
+const canvases = [...document.querySelectorAll('canvas')]
+const hasInput = [0, 0]
+
+canvases.forEach(e => {e.width = e.height = 0})
+inputs.forEach(e => e.addEventListener('change', handleInput))
+
+function handleInput () {
+  const input = this
+  const index = inputs.indexOf(input)
+  const canvas = canvases[index]
+  const image = new Image()
+  image.addEventListener('load', () => {
+    canvas.width = image.width
+    canvas.height = image.height
+    canvas.getContext('2d').drawImage(image, 0, 0)
+    hasInput[index] = 1
+    if (hasInput.indexOf(0) === -1) compareCanvases()
+  })
+  image.src = URL.createObjectURL(input.files[0])
 }
 
+function compareCanvases() {
+  const img1Ctx = canvases[0].getContext('2d')
+  const img2Ctx = canvases[1].getContext('2d')
+  const diffCtx = canvases[2].getContext('2d')
+  const {width, height} = canvases[0]
+  canvases[2].width = width
+  canvases[2].height = height
+  
+  const img1 = img1Ctx.getImageData(0, 0, width, height)
+  const img2 = img2Ctx.getImageData(0, 0, width, height)
+  const diff = diffCtx.createImageData(width, height)
 
-function writeResultToPage(imgDataOutput)
-{
-  console.log("writeResultToPage was called. imgDataOutput.data.length =", imgDataOutput.data.length);
-  var canvas = document.createElement("canvas"); //  new HTMLCanvasElement();
-  canvas.width = imgDataOutput.width;
-  canvas.height = imgDataOutput.height;
-    var ctx = canvas.getContext("2d");
-    ctx.putImageData(imgDataOutput, 0, 0);
-    var result = document.getElementById("result");
-    result.appendChild(ctx.canvas);
+  const diffCount = pixelmatch(img1.data, img2.data, diff.data, width, height, {threshold: 0.1})
+  document.querySelector('output').textContent = diffCount
+
+  diffCtx.putImageData(diff, 0, 0)
+  let imgElement = document.getElementById('output');
+  points = simpleBlobDetector(cv.imread(imgElement))
+  
+  var c = document.getElementById("output");
+  var cAfter = document.getElementById("after");
+  var ctx = c.getContext("2d");
+  var ctxAfter = cAfter.getContext("2d");
+  for (var i = 0; i < points.length; i++){
+    ctx.beginPath();
+    ctx.arc(points[i].pt.x, points[i].pt.y, points[i].size, 0, 2 * Math.PI);
+    ctx.stroke();
+    ctxAfter.beginPath();
+    ctxAfter.arc(points[i].pt.x, points[i].pt.y, points[i].size, 0, 2 * Math.PI);
+    ctxAfter.stroke();
+  }
 }
-
-
-function compareImages()
-{        
-    console.clear();
-    var cnvBefore = convertImageToCanvas("imgBefore");
-    var cnvAfter = convertImageToCanvas("imgAfter");
-
-    var ctxBefore = cnvBefore.getContext("2d");
-    var ctxAfter = cnvAfter.getContext("2d");
-
-    let imgDataBefore = ctxBefore.getImageData(0,0,cnvBefore.width, cnvBefore.height);
-    let imgDataAfter = ctxAfter.getImageData(0,0, cnvAfter.width, cnvAfter.height);   
-
-    const hght = imgDataBefore.height;
-    const wdth = imgDataBefore.width;
-
-    var imgDataOutput = new ImageData(wdth, hght);
-
-    var numDiffPixels = pixelmatch(imgDataBefore.data, imgDataAfter.data, 
-                        imgDataOutput.data, wdth, hght, {threshold: 0.1});
-    console.log("numDiffPixels =", numDiffPixels);
-     // this line does not work
-     writeResultToPage(imgDataOutput)
-
-}
-
-
-Document.getElementById("diff").addEventListener('click', compareImages);
