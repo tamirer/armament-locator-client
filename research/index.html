@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Hello OpenCV.js</title>
+</head>
+<body>
+<h2>Hello OpenCV.js</h2>
+<p id="status">OpenCV.js is loading...</p>
+<div>
+  <div class="inputoutput">
+    <img id="imageSrc" alt="No Image" />
+    <img id="imageSrc2" alt="No Image" />
+    <div class="caption">imageSrc <input type="file" id="fileInput" name="file" /></div>
+    <div class="caption">imageSrc2 <input type="file" id="fileInput2" name="file" /></div>
+  </div>
+  <div class="inputoutput">
+    <h1> gray</h1>
+    <canvas id="canvasGray" ></canvas>
+    <h1> output</h1>
+    <canvas id="canvasOutput" ></canvas>
+    <div class="caption">canvasOutput</div>
+  </div>
+</div>
+<script type="text/javascript">
+let imgElement = document.getElementById('imageSrc');
+let imgElement2 = document.getElementById('imageSrc2');
+let inputElement = document.getElementById('fileInput');
+inputElement.addEventListener('change', (e) => {
+  imgElement.src = URL.createObjectURL(e.target.files[0]);
+}, false);
+imgElement.onload = function() {
+  let mat = cv.imread(imgElement);
+  var src = cv.imread(imgElement); // load the image from <img>
+  var dst = new cv.Mat();
+  var src2 = cv.imread(imgElement2);
+  let temp22 = new cv.Mat();
+  cv.cvtColor(src, src, cv.COLOR_RGB2GRAY, 0);
+  cv.cvtColor(src2, src2, cv.COLOR_RGB2GRAY, 0);
+  cv.Canny(src, dst, 50, 100, 3, false); // You can try more different parameters
+  cv.imshow('canvasGray', dst); // display the output to canvas
+  let srcScaled = new cv.Mat();
+  cv.resize(src, srcScaled, new cv.Size(320, 240), 0, 0, cv.INTER_AREA);
+  let srcScaled2 = new cv.Mat();
+  cv.resize(src2, srcScaled2, new cv.Size(320, 240), 0, 0, cv.INTER_AREA);
+  //cv.Canny(srcScaled, srcScaled, 50, 100, 3, false);
+  //cv.Canny(srcScaled2, srcScaled2, 50, 100, 3, false);
+  cv.subtract(srcScaled,srcScaled2,temp22)
+  cv.imshow('canvasOutput', temp22);
+  mat.delete();
+  //https://huningxin.github.io/opencv.js/build/asm.js/
+};
+function onOpenCvReady() {
+  document.getElementById('status').innerHTML = 'OpenCV.js is ready.';
+}
+</script>
+<script async src="opencv.js" onload="onOpenCvReady();" type="text/javascript"></script>
+</body>
+</html>
