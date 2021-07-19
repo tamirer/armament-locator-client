@@ -1,5 +1,5 @@
 export enum TailStatus {
-  Preflight,
+  Preflight= 1,
   AfterPreflightArmaments,
   Sortie,
   AfterFlightArmaments,

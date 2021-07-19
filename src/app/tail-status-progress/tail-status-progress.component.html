@@ -1,62 +1,80 @@
-<div class="row mt-1">
+<div class="spinner-border" role="status" *ngIf="isLoading">
+  <span class="sr-only">Loading...</span>
+</div>
+<div class="row" *ngIf="!isLoading">
   <div class="col-md-12">
+    <div style="height: 65vh">
+      <div class="step-content lighten-3"
+           *ngIf="tail.missionStatus.id === tailStatus.Preflight">
+        <app-signature (onSubmit)="tail.missionStatus.id = tailStatus.AfterPreflightArmaments"></app-signature>
+      </div>
+      <div class="step-content lighten-3"
+           *ngIf="tail.missionStatus.id === tailStatus.AfterPreflightArmaments"
+           style="padding-top: 20vh;">
+        <div class="container d-flex flex-column align-content-center">
+          <app-add-image-or-capture [tailId]="tail.id" [status]="'preflight'"></app-add-image-or-capture>
+        </div>
+      </div>
+      <div class="step-content lighten-3"
+           *ngIf="tail.missionStatus.id === tailStatus.Sortie">
+        <app-signature (onSubmit)="tail.missionStatus.id = tailStatus.AfterFlightArmaments"></app-signature>
+      </div>
+      <div class="step-content lighten-3"
+           *ngIf="tail.missionStatus.id === tailStatus.AfterFlightArmaments"
+      style="padding-top: 20vh;">
+        <div class="container d-flex flex-column align-content-center">
+          <app-add-image-or-capture [tailId]="tail.id" [status]="'postflight'"></app-add-image-or-capture>
+        </div>
+      </div>
+      <div class="step-content lighten-3"
+           *ngIf="tail.missionStatus.id === tailStatus.Done">
+        <app-signature></app-signature>
+      </div>
+    </div>
+    <ul class="stepper stepper-horizontal m-0">
 
-    <!-- Stepers Wrapper -->
-    <ul class="stepper stepper-vertical">
-
-      <!-- First Step -->
-      <li class="completed">
-        <a href="#!">
+      <li [ngClass]="{'completed': tail.missionStatus.id > tailStatus.Preflight,
+      'active': tail.missionStatus.id === tailStatus.Preflight}">
+        <a (click)="tail.missionStatus.id = tailStatus.Preflight">
           <span class="circle">1</span>
           <span class="label">Preflight</span>
         </a>
       </li>
 
-      <!-- Second Step -->
-      <li class="active">
-
-        <!--Section Title -->
-        <a href="#!">
+      <li [ngClass]="{'completed': tail.missionStatus.id > tailStatus.AfterPreflightArmaments,
+      'active': tail.missionStatus.id === tailStatus.AfterPreflightArmaments}">
+        <a (click)="tail.missionStatus.id = tailStatus.AfterPreflightArmaments">
           <span class="circle">2</span>
-          <span class="label">הכנס תמונה של המטוס עם חימושים</span>
+          <span class="label">תמונה לפני טיסה</span>
         </a>
-
       </li>
 
-      <!-- Third Step -->
-      <li class="">
-        <a href="#!">
+      <li [ngClass]="{'completed': tail.missionStatus.id > tailStatus.Sortie,
+      'active': tail.missionStatus.id === tailStatus.Sortie}">
+        <a (click)="tail.missionStatus.id = tailStatus.Sortie">
           <span class="circle">3</span>
           <span class="label">גיחה</span>
         </a>
       </li>
 
-      <!-- Fourth Step -->
-      <li>
-        <a href="#!">
+      <li [ngClass]="{'completed': tail.missionStatus.id > tailStatus.AfterFlightArmaments,
+      'active': tail.missionStatus.id === tailStatus.AfterFlightArmaments}">
+        <a (click)="tail.missionStatus.id = tailStatus.AfterFlightArmaments">
           <span class="circle">4</span>
-          <span class="label">הכנס תמונה של המטוס לאחר הטיסה</span>
+          <span class="label">תמונה לאחר טיסה</span>
         </a>
       </li>
 
-      <li>
-        <a href="#!">
+      <li [ngClass]="{'completed': tail.missionStatus.id > tailStatus.Done,
+      'active': tail.missionStatus.id === tailStatus.Done}">
+        <a (click)="tail.missionStatus.id = tailStatus.Done">
           <span class="circle">5</span>
           <span class="label">חתימה סופית</span>
         </a>
       </li>
 
     </ul>
-    <!-- /.Stepers Wrapper -->
-
   </div>
-</div>
+  <!-- /.Stepers Wrapper -->
 
-<!-- Steppers Navigation -->
-<div class="row mt-1">
-  <div class="col-md-12 text-right">
-    <button mdbBtn  size="sm">Cancel</button>
-    <button mdbBtn  size="sm">Next</button>
-  </div>
 </div>
-<!-- /.Vertical Steppers -->
