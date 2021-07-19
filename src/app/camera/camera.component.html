@@ -1,0 +1,22 @@
+<div style="text-align:center">
+  <div class="d-flex flex-column align-content-center justify-content-center">
+    <webcam [height]="200" [width]="200" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"
+            *ngIf="showWebcam && !webcamImage"
+            [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable" [videoOptions]="videoOptions"
+            (cameraSwitched)="cameraWasSwitched($event)"
+            (initError)="handleInitError($event)"></webcam>
+    <div class="snapshot" *ngIf="webcamImage">
+      <img width="200" height="150" [src]="webcamImage.imageAsDataUrl"/>
+    </div>
+    <div class="d-flex">
+      <button mdbBtn (click)="triggerSnapshot();" style="width: 50%" [disabled]="webcamImage">צילום</button>
+      <button mdbBtn (click)="bla()" [disabled]="!webcamImage" style="width: 50%">צילום מחדש</button>
+    </div>
+  </div>
+
+</div>
+<button mdbBtn (click)="onUpload()">העלאה</button>
+<h4 *ngIf="errors.length > 0">Messages:</h4>
+<ul *ngFor="let error of errors">
+  <li>{{error | json}}</li>
+</ul>

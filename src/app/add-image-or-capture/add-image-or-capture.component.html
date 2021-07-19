@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="row">
+        <button class="col-4" mdbBtn style="width: 15vw;" (click)="isUploadChosen = false; isInitialClick = true">
+          <mdb-icon fas icon="camera-retro" size="5x"></mdb-icon>
+        </button>
+      </div>
+      <div class="row">
+        <button class="col-4" mdbBtn style="width: 15vw;" (click)="isUploadChosen = true; isInitialClick = true">
+          <mdb-icon fas icon="plus" size="5x"></mdb-icon>
+        </button>
+      </div>
+    </div>
+    <div class="col-8">
+      <div>
+        <app-upload-image *ngIf="isUploadChosen && isInitialClick"
+        [tailId]="tailId" [status]="status"></app-upload-image>
+      </div>
+      <div class="row">
+        <app-camera [tailId]="tailId" [status]="status" class="col-4" *ngIf="!isUploadChosen && isInitialClick" (pictureTaken)="handleImage($event)"></app-camera>
+      </div>
+    </div>
+  </div>
+</div>

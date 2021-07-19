@@ -1,0 +1,17 @@
+<div>
+  <div class="d-flex align-items-center">
+    <div class="input-group">
+      <div class="custom-file">
+        <input type="file" class="custom-file-input" id="inputGroupFile01"
+               aria-describedby="inputGroupFileAddon01" (change)="onFileChanged($event)">
+        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+      </div>
+    </div>
+    <div>
+      <button mdbBtn (click)="onUpload()" [disabled]="!imgURL">העלאה</button>
+    </div>
+  </div>
+  <div>
+    <img width="200" height="150" *ngIf="imgURL" [src]="imgURL">
+  </div>
+</div>
