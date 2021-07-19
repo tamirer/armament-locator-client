@@ -46,7 +46,13 @@ imgElement.onload = function() {
   //cv.Canny(srcScaled, srcScaled, 50, 100, 3, false);
   //cv.Canny(srcScaled2, srcScaled2, 50, 100, 3, false);
   //cv.subtract(srcScaled,srcScaled2,temp22)
-  temp22 = srcScaled - srcScaled2
+  const img1 = img1Context.getImageData(0, 0, width, height);
+  const img2 = img2Context.getImageData(0, 0, width, height);
+  const diff = diffContext.createImageData(width, height);
+
+pixelmatch(img1.data, img2.data, diff.data, width, height, {threshold: 0.1});
+
+diffContext.putImageData(diff, 0, 0);
   cv.imshow('canvasOutput', temp22);
   mat.delete();
   //https://huningxin.github.io/opencv.js/build/asm.js/
